@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+.background {
+  background-color: #8a929257;
+  position: relative;
+  width: 100%;
+  bottom: 0%;
+  height: 100px;
+  font-family: "Quicksand";
+  font-size: 14px;
+  font-weight: bolder;
+  padding-left: 50px;
+  color: rgba(20, 20, 20, 0.904);
+
+  margin-top: 10rem;
+}
+.personal-info {
+  text-decoration: none;
+  color: rgba(20, 20, 20, 0.904);
+}
+.personal-info:hover {
+  color: #f6416c;
+}
+.up {
+  position: fixed;
+  bottom: 40px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+}
