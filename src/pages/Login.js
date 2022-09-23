@@ -10,59 +10,62 @@ function Login() {
   const { setAuthState, authState, setIsLoading } = useContext(AuthContext);
   const login = () => {
     setIsLoading(true);
-    setTimeout(()=>{
-
+    setTimeout(() => {
       const data = {
         username: username,
         password: password,
       };
-      axios.post("http://localhost:3001/auth/login", data).then((response) => {
-        if (response.data.error) {
-          alert(response.data.error);
-        } else {
-          setAuthState({
-            ...authState,
-            username: response.data.username,
-            id: response.data.id,
-            fullname: response.data.fullname,
-          })
-          let { data: user } = response;
-          console.log(user)
-          localStorage.setItem("accessToken", user.token);
-          if (user.cartStatus === 1) {
-            axios
-              .post(
-                "http://localhost:3001/carts",
-                {
-                  UserId: user.id,
-                  totalPrice: 0,
-                },
-                {
-                  headers: {
-                    accessToken: localStorage.getItem("accessToken"),
-                  },
-                }
-              )
-              .then((response) => {
-                setAuthState({...authState, cartId: response.data.id, cartStatus: response.data.status});
-                console.log(
-                  "Create new Cart because the previous cart is completed"
-                );
-              });
-          }
-          else{
+      axios
+        .post("https://e-commerce-lgb.herokuapp.com/auth/login", data)
+        .then((response) => {
+          if (response.data.error) {
+            alert(response.data.error);
+          } else {
             setAuthState({
               ...authState,
-              cartId: user.cartId,
-              cartStatus: false,
+              username: response.data.username,
+              id: response.data.id,
+              fullname: response.data.fullname,
             });
+            let { data: user } = response;
+            console.log(user);
+            localStorage.setItem("accessToken", user.token);
+            if (user.cartStatus === 1) {
+              axios
+                .post(
+                  "https://e-commerce-lgb.herokuapp.com/carts",
+                  {
+                    UserId: user.id,
+                    totalPrice: 0,
+                  },
+                  {
+                    headers: {
+                      accessToken: localStorage.getItem("accessToken"),
+                    },
+                  }
+                )
+                .then((response) => {
+                  setAuthState({
+                    ...authState,
+                    cartId: response.data.id,
+                    cartStatus: response.data.status,
+                  });
+                  console.log(
+                    "Create new Cart because the previous cart is completed"
+                  );
+                });
+            } else {
+              setAuthState({
+                ...authState,
+                cartId: user.cartId,
+                cartStatus: false,
+              });
+            }
+            setIsLoading(false);
+            navigate("/");
           }
-          setIsLoading(false)
-          navigate("/");
-        }
-      });
-    },1000)
-    
+        });
+    }, 1000);
   };
   return (
     <div className="container-fluid h-custom">

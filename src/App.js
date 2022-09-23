@@ -36,7 +36,7 @@ function App() {
   }, [authState]);
   useEffect(async () => {
     await axios
-      .get("http://localhost:3001/auth/auth", {
+      .get("https://e-commerce-lgb.herokuapp.com/auth/auth", {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
